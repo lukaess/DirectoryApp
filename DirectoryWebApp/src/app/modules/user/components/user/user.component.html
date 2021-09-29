@@ -1,0 +1,67 @@
+<div *ngIf="authService.user$ | async as user;">
+  <br><br>
+  <mat-card>
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+  </mat-card>
+
+<mat-table [dataSource]="dataSource"  class="mat-elevation-z8" matSort>
+  
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+    <mat-cell *matCellDef="let element" > {{element.name}} </mat-cell>
+  </ng-container>
+  
+ 
+    <ng-container matColumnDef="surname">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Surname </mat-header-cell>
+      <mat-cell *matCellDef="let element" > {{element.surname}} </mat-cell>
+    </ng-container>
+  
+
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+      <mat-cell *matCellDef="let element" > {{element.email}} </mat-cell>
+    </ng-container>
+  
+
+    <ng-container matColumnDef="dateOfBirth">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Date of birth </mat-header-cell>
+      <mat-cell *matCellDef="let element" > {{element.dateOfBirth }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="adress">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Adress </mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let element"> {{element.adress}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell  *matHeaderCellDef > 
+        <button mat-icon-button color="warn" (click)="addNewUser()">
+          <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+        </button> 
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+        <button mat-mini-fab color="warn" aria-label="Delete button" (click)="deleteUser(element ,element.name, element.surname)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" (click)="editUsers(element ,element.name, element.surname, element.email, element.dateOfBirth, element.adress)">
+          <mat-icon>launch</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="loading">
+      <mat-footer-cell *matFooterCellDef>
+        Loading data...
+      </mat-footer-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':users!=null}"></mat-footer-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
